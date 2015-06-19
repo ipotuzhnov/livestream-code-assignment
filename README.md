@@ -32,29 +32,33 @@ npm install -g typescript
 
   * **Code:** 200 OK <br />
     **Content-Type:** application/json <br />
-    **Content:**`{
-      [
-        ...
-        {
-          "livestream_id": "6488818",
-          "full_name": "Steven Speilberg",
-          "dob": "2012-06-26T06:07:15.000Z",
-          "favorite_camera": "Sony F65",
-          "favorite_movies": [
-            "Catch Me If You Can",
-            "The Terminal"
-          ],
-          "links": {
-            "self": "/directors/6488818"
-          }
-        }
-        ...
+    **Content:**
+    
+```javascript
+{
+  [
+    ...
+    {
+      "livestream_id": "6488818",
+      "full_name": "Steven Speilberg",
+      "dob": "2012-06-26T06:07:15.000Z",
+      "favorite_camera": "Sony F65",
+      "favorite_movies": [
+        "Catch Me If You Can",
+        "The Terminal"
       ],
       "links": {
-        "prev": "/directors?page=2",
-        "next": "/directors?page=4"
+        "self": "/directors/6488818"
       }
-    }`
+    }
+    ...
+  ],
+  "links": {
+    "prev": "/directors?page=2",
+    "next": "/directors?page=4"
+  }
+}
+```
     
 * **Error Response:**
 
@@ -76,31 +80,43 @@ npm install -g typescript
   
 * **Data Params**
   * **Content-Type:** application/json <br />
-    **Content:**`{`
-      **Required:**`"livestream_id": "6488818"`
-      **Optional:**`"favorite_camera": "Sony F65"
-      **Optional:**`"favorite_movies": [
-        "Catch Me If You Can",
-        "The Terminal"
-      ]`
+    **Content:**
+
+```javascript
+{
+  // Required {String}
+  "livestream_id": "6488818",
+  // Optional {String}
+  "favorite_camera": "Sony F65",
+  // Optional {Array} of {String}
+  "favorite_movies": [ 
+    "Catch Me If You Can",
+    "The Terminal"
+  ]
+}
+```
       
 * **Success Response:**
 
   * **Code:** 201 Created <br />
     **Content-Type:** application/json <br />
-    **Content:**`{
-      "livestream_id": "6488818",
-      "full_name": "Steven Speilberg",
-      "dob": "2012-06-26T06:07:15.000Z",
-      "favorite_camera": "Sony F65",
-      "favorite_movies": [
-        "Catch Me If You Can",
-        "The Terminal"
-      ],
-      "links": {
-        "self": "/directors/6488818"
-      }
-    }`
+    **Content:**
+    
+```javascript
+{
+  "livestream_id": "6488818",
+  "full_name": "Steven Speilberg",
+  "dob": "2012-06-26T06:07:15.000Z",
+  "favorite_camera": "Sony F65",
+  "favorite_movies": [
+    "Catch Me If You Can",
+    "The Terminal"
+  ],
+  "links": {
+    "self": "/directors/6488818"
+  }
+}
+```
     
 * **Error Response:**
 
