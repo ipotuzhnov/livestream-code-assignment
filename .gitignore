@@ -9,4 +9,5 @@ node_modules
 typings
 
 # Generated files
-server/*.js
+server/**/*.js
+server/**/*.js.map
