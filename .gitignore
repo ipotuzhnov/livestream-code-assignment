@@ -7,3 +7,6 @@ node_modules
 
 # TypeScript definitions
 typings
+
+# Generated files
+server/*.js
