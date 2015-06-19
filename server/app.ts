@@ -1,5 +1,6 @@
 /// <reference path="../typings/node/node.d.ts" />
 /// <reference path="../typings/express/express.d.ts" />
+/// <reference path="app.d.ts" />
 
 var express = require('express');
 var path = require('path');
