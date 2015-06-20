@@ -120,6 +120,10 @@ npm install -g typescript
     
 * **Error Response:**
 
+  * **Code:** 400 Bad Request <br />
+    
+    **Content:**`Field {{field name}} does not match data from livestream.com`
+    
   * **Code:** 404 Not Found <br />
     
     **Content:**`Accout with livestream_id: 6488818 does not exist on livestream.com`
@@ -128,13 +132,5 @@ npm install -g typescript
     
     **Content:**`Director with livestream_id: 6488818 already exists`
     
-    OR
-    
-    **Content:**`Field full_name is immutable`
-    
-    OR
-    
-    **Content:**`Field dob is immutable`
-
   * **Code:** 500 Internal Server Error <br />     
      
