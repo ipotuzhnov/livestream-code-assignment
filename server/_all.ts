@@ -13,5 +13,3 @@
 /// <reference path="controllers/directorController.ts" />
 /// <reference path="models/directorModel.ts" />
 /// <reference path="routes/directorRoutes.ts" />
-
-/// <reference path="app.d.ts" />

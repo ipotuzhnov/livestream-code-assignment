@@ -1,0 +1,16 @@
+/// <reference path="../_all.ts" />
+
+import express = require('express');
+
+var routes = (Director) => {
+  var directorRouter = express.Router();
+  
+  var directorController = require('../controllers/directorController')(Director);
+  
+  directorRouter.route('/')
+    .get(directorController.get);
+    
+  return directorRouter;
+}
+
+export = routes;
