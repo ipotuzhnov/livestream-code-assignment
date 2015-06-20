@@ -3,8 +3,6 @@ var ts      = require('gulp-typescript');
 
 var env     = process.env.ENV || 'dev';
 
-var tsProject = ts.createProject('tsconfig.json');
-
 var paths = {
   server: {
     src: 'server/**/*.ts',
@@ -88,13 +86,16 @@ gulp.task('build', function (cb) {
 });
 
 function compile(src, out, cb) {
+  var tsProject = ts.createProject('tsconfig.json');
   var tsResult = gulp
     .src(src)
     .pipe(ts(tsProject))
     .once('error', handleError)
+    .js
+    .pipe(gulp.dest(out))
     .once('end', cb);
     
-  return tsResult.js.pipe(gulp.dest(out));
+  return tsResult;
 }
 
 function handleError(err) {
