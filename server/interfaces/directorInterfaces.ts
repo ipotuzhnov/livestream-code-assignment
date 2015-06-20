@@ -1,7 +1,3 @@
-interface Error {
-  status?: number;
-}
-
 interface IDirector {
   livestream_id: string;
   full_name: string;
@@ -11,5 +7,5 @@ interface IDirector {
 }
 
 interface IDirectorModel {
-  listAll: () => IDirector [];
+  listAll?: () => IDirector [];
 }
