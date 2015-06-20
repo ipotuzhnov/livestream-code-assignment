@@ -5,6 +5,15 @@ account on Livestream.
 This project is written in TypeScript so first of all you need to install it:
 npm install -g typescript
 
+And for TypeScript definitions:
+npm install -g tsd
+
+Automatic build with gulp:
+npm install -g gulp
+
+Automatic tests with mocha:
+npm install -g mocha
+
 # Directors
 **Show Directors**
 ----
