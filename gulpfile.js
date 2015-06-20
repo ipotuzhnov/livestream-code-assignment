@@ -45,12 +45,6 @@ if (env === 'dev') {
     server.restart();
   });
   
-  // ** Compile tests ** //
-  
-  gulp.task('buildTests', ['build'], function () {
-    compile(paths.tests.src, paths.tests.out);
-  });
-  
   // ** Testing ** //
 
   gulp.task('test', ['buildTests'], function (cb) {
@@ -59,6 +53,12 @@ if (env === 'dev') {
       .pipe(mocha())
       .once('error', handleError)
       .once('end', cb);
+  });
+  
+  // ** Compile tests ** //
+  
+  gulp.task('buildTests', ['build'], function (cb) {
+    compile(paths.tests.src, paths.tests.out, cb);
   });
   
   // ** Running ** //
@@ -83,15 +83,16 @@ if (env === 'dev') {
 
 // ** Compilation ** //
 
-gulp.task('build', function () {
-  compile(paths.server.src, paths.server.out);
+gulp.task('build', function (cb) {
+  compile(paths.server.src, paths.server.out, cb);
 });
 
-function compile(src, out) {
+function compile(src, out, cb) {
   var tsResult = gulp
     .src(src)
     .pipe(ts(tsProject))
-    .once('error', handleError);
+    .once('error', handleError)
+    .once('end', cb);
     
   return tsResult.js.pipe(gulp.dest(out));
 }
