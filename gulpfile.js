@@ -1,35 +1,73 @@
 var gulp    = require('gulp');
 var ts      = require('gulp-typescript');
-var nodemon = require('gulp-nodemon'); 
 
-var tsFiles = 'server/**/*.ts'; 
+var env     = process.env.ENV || 'dev';
+
+var tsFiles = ['server/**/*.ts'];
+
 var tsProject = ts.createProject('tsconfig.json');
+  
+var server, mocha, exec;
+if (env === 'dev') {
+  tsFiles.push('tests/**/*.ts');
+  server  = require('gulp-develop-server');
+  mocha = require('gulp-mocha');
+} else {
+  exec = require('child_process').exec;
+}
 
-gulp.task('default', ['build', 'run']);
+// ** Default ** //
 
+gulp.task('default', ['run']);
 
-// ** Running ** //
-
-gulp.task('run', ['build'], function () {
-  nodemon({
-    script: 'bin/www',
-    ext: 'ts',
-    ignore: './node_modules',
-    tasks: ['build']
+if (env === 'dev') {
+  
+  // ** Start server ** //
+  
+  gulp.task('start', ['test'], function () {
+    server.listen({path: 'bin/www'});
   });
-});
+  
+  // ** Restart server ** //
+  
+  gulp.task('restart', ['test'], function () {
+    server.restart();
+  });
+  
+  // ** Testing ** //
 
-// ** Watching ** //
-
-gulp.task('watch', function () {
-	gulp.watch(tsFiles, ['run']);
-});
+  gulp.task('test', ['build'], function() {
+    gulp
+      .src('tests/**/*.js')
+      .pipe(mocha());
+  });
+  
+  // ** Running ** //
+  
+  gulp.task('run', ['start'], function () {
+    gulp.watch(tsFiles, ['restart']);  
+  });
+  
+} else {
+  
+  // ** Running ** //
+  
+  gulp.task('run', function (cb) {
+    exec('node bin/www', function (err, stdout, stderr) {
+      console.log(stdout);
+      console.log(stderr);
+      cb(err);
+    });
+  });
+  
+}
 
 // ** Compilation ** //
 
 gulp.task('build', function () {
-  var tsResult = gulp.src(tsFiles) 
-      .pipe(ts(tsProject));
+  var tsResult = gulp
+    .src(tsFiles) 
+    .pipe(ts(tsProject));
     
   return tsResult.js.pipe(gulp.dest('server'));
 });
