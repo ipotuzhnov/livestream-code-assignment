@@ -1,13 +1,13 @@
-/// <reference path="../_all.ts" />
+/// <reference path="../_all.d.ts" />
 
-var directorController = (Director) => {
+var directorController = (Director: IDirectorModel) => {
 	var get = (req, res, next) => {
 		Director.listAll((err, results) => {
 			if (err) {
-				return next(err); 
+				return next(err);
 			}
 			
-			console.log(results);
+			//console.log(results);
 			res.send(results);
 		});
 	};
