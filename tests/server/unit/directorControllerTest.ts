@@ -4,14 +4,20 @@ var should: Internal = require('should');
 
 describe('Director Controller Tests', () => {
 	describe('GET', () => {
-		it('should return Directors collection', (done) => {
-			var Director: IDirectorModel = () => {};
+		it('should return valid Directors collection', (done) => {
+			var Director: IDirectorModel = {
+				listAll: (callback: (err, results: IDirector[]) => void) => {
+					callback(null, directors);
+				},
+				get: (id: string, cb: (err, res) => void) => {
+					cb(null, null);
+				},
+  			set: (id: string, val, cb: (err, res) => void) => {
+					cb(null, null);
+				}
+			};
 			
 			var directors: IDirector[] = require('../data.json');
-			
-			Director.listAll = (callback: (err, results: IDirector[]) => void) => {
-				callback(null, directors);
-			};
 			
 			var res = {
 				result: <IDirector[]>[],
@@ -26,7 +32,7 @@ describe('Director Controller Tests', () => {
 			};
 			
 			var directorController = require('../../../server/controllers/directorController')(Director);
-			directorController.get(null, res, null);
+			directorController.listAll(null, res, null);
 		});
 	});
 });

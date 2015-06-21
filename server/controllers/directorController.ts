@@ -1,7 +1,7 @@
 /// <reference path="../_all.d.ts" />
 
-var directorController = (Director: IDirectorModel) => {
-	var get = (req, res, next) => {
+var directorController = (Director: IDirector) => {
+	var listAll = (req, res, next) => {
 		Director.listAll((err, results) => {
 			if (err) {
 				return next(err);
@@ -13,7 +13,7 @@ var directorController = (Director: IDirectorModel) => {
 	};
 	
 	return {
-		get
+		listAll
 	};
 };
 

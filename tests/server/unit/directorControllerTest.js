@@ -1,13 +1,19 @@
 var should = require('should');
 describe('Director Controller Tests', function () {
     describe('GET', function () {
-        it('should return Directors collection', function (done) {
-            var Director = function () {
+        it('should return valid Directors collection', function (done) {
+            var Director = {
+                listAll: function (callback) {
+                    callback(null, directors);
+                },
+                get: function (id, cb) {
+                    cb(null, null);
+                },
+                set: function (id, val, cb) {
+                    cb(null, null);
+                }
             };
             var directors = require('../data.json');
-            Director.listAll = function (callback) {
-                callback(null, directors);
-            };
             var res = {
                 result: [],
                 send: function (result) {
@@ -20,7 +26,7 @@ describe('Director Controller Tests', function () {
                 }
             };
             var directorController = require('../../../server/controllers/directorController')(Director);
-            directorController.get(null, res, null);
+            directorController.listAll(null, res, null);
         });
     });
 });

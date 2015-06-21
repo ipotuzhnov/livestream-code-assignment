@@ -12,26 +12,29 @@ client.on('error', (err) => {
 });
 
 var db = {
+	
 	models: {},
 	
-	model: (modelName, modelClass) => {
-		if (modelClass) {
-			db.models[modelName] = modelClass;
+	model: (modelName: string) => {
+		db.models[modelName] = {};
 			
-			modelClass.listAll = (cb: (err, res) => void) => {
-				db.listAll(modelName, cb);
-			};
-			
-			modelClass.get = (livestreamid_id: string, cb: (err, res) => void) => {
-				db.get(modelName, livestreamid_id, cb);
-			};
-			
-			modelClass.set = (livestreamid_id: string, val: string, cb: (err, res) => void) => {
-				db.set(modelName, livestreamid_id, val, cb);
-			};	
-		}
+		db.models[modelName].listAll = (cb: (err, res) => void) => {
+			db.listAll(modelName, cb);
+		};
 		
-		return db.models[modelName]; 
+		db.models[modelName].get = (id: string, cb: (err, res) => void) => {
+			db.get(modelName, id, cb);
+		};
+		
+		db.models[modelName].set = (id: string, val, cb: (err, res) => void) => {
+			db.set(modelName, id, val, cb);
+		};
+		
+		db.models[modelName].remove = (id: string, cb: (err, res) => void) => {
+			db.remove(modelName, id, cb);
+		};
+	
+		return <IModel>db.models[modelName]; 
 	},
 	
 	listAll: (collectionName: string, cb: (err, res) => void) => {
@@ -69,27 +72,55 @@ var db = {
 	},
 	
 	get: (collectionName: string, id: string, cb: (err, res) => void) => {
-		var colId = `${collectionName}:${id}`;
+		var memberId = `${collectionName}:${id}`;
 		
-		client.get(colId, cb);
+		client.get(memberId, cb);
 	},
 	
-	set: (collectionName: string, id: string, val: string, cb: (err, res) => void) => {
-		var colId = `${collectionName}:${id}`;
+	set: (collectionName: string, id: string, val, cb: (err, res) => void) => {
+		var memberId = `${collectionName}:${id}`;
+		
+		var newVal: string
+				
+		try {
+			newVal = JSON.stringify(val);
+		} catch (err) {
+			return cb(err, null);
+		}
 		
 		async.parallel([
 			(callback) => {
-				client.set(colId, val, callback);
+				client.set(memberId, newVal, callback);
 			},
 			(callback) => {
-				client.sadd(collectionName, colId, callback);
+				client.sadd(collectionName, memberId, callback);
 			}
 		],
 		(err) => {
 			if (err) {
-				return cb(err, val);
+				return cb(err, null);
 			}
+			
+			cb(null, val);
 		});
+	},
+	
+	remove: (collectionName: string, id: string, cb: (err, res) => void) => {
+		var memberId = `${collectionName}:${id}`;
+		
+		async.parallel([
+			(callback) => {
+				client.srem(collectionName, memberId, callback);
+			},
+			(callback) => {
+				client.del(memberId, callback);
+			}
+		],
+		(err) => {
+			return cb(err, null);
+		});
+		
+		cb(null, null);
 	}
 	
 };
@@ -97,7 +128,7 @@ var db = {
 var asiter: AsyncIterator<IDirector> = (item: IDirector, cb: (err) => void) => {
 	var val = JSON.stringify(item);
 	
-	db.set('directors', item.livestream_id, val, (err, res) => {
+	db.set('directors', item.livestream_id, item, (err, res) => {
 		if (err) {
 			return cb(err);
 		}
