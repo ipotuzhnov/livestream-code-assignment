@@ -127,7 +127,7 @@ describe('Director Controller Tests', () => {
 		
 	});
 	
-	describe('PUT /directors', () => {
+	describe('PUT /directors/:id', () => {
 		
 		it('should update entry in Directors collection', (done) => {
 			
