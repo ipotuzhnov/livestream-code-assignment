@@ -21,7 +21,7 @@ describe('DB orm tests', () => {
 		});
 		
 		var collectionName = 'users';
-		var user_id = '1';
+		var user_id = 1;
 		var memberId = `${collectionName}:${user_id}`;
 		var user = {user_id};
 		var val = JSON.stringify(user);
