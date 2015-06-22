@@ -6,6 +6,8 @@ import path = require('path');
 //import logger = require('morgan');
 //import cookieParser = require('cookie-parser');
 import bodyParser = require('body-parser');
+
+import createHttpError = require('./httpError');
 import db = require('./db');
 
 import Director = require('./models/directorModel');
@@ -35,9 +37,7 @@ app.use('/directors', directorRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  next(createHttpError(404, 'Not Found'));
 });
 
 // error handlers
