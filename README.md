@@ -1,23 +1,32 @@
 # Directors API with Node.js
+----
 A simple API that allows to register and list all the movie directors having an
 account on Livestream.
 
+**Prerequisite packages**
+----
+
 This project is written in TypeScript so first of all you need to install it:
-npm install -g typescript
+`npm install -g typescript`
 
 And for TypeScript definitions:
-npm install -g tsd
+`npm install -g tsd`
 
 Automatic build with gulp:
-npm install -g gulp
+`npm install -g gulp`
 
 Automatic tests with mocha:
-npm install -g mocha
+`npm install -g mocha`
 
-# Directors
+**Building**
+----
+Default gulp task will compile, test and run server for you:
+`gulp`
+
+# Directors Collection
 **Show Directors**
 ----
-  Returns json data about all directors.
+  Returns Directors collection.
 
 * **URL**
   /directors
@@ -27,11 +36,7 @@ npm install -g mocha
 
 * **URL Params**
 
-  **Optional:**
-  
-  `page=[Number]` default 0
-  
-  `limit=[Number]` default 10, max 100
+  None
   
 * **Data Params**
 
@@ -55,17 +60,10 @@ npm install -g mocha
       "favorite_movies": [
         "Catch Me If You Can",
         "The Terminal"
-      ],
-      "links": {
-        "self": "/directors/6488818"
-      }
+      ]
     }
     ...
-  ],
-  "links": {
-    "prev": "/directors?page=2",
-    "next": "/directors?page=4"
-  }
+  ]
 }
 ```
     
@@ -120,10 +118,7 @@ npm install -g mocha
   "favorite_movies": [
     "Catch Me If You Can",
     "The Terminal"
-  ],
-  "links": {
-    "self": "/directors/6488818"
-  }
+  ]
 }
 ```
     
