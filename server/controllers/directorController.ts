@@ -37,12 +37,10 @@ var directorController = (Director: IModel) => {
 	var post = (req, res, next) => {
 		 
 		if (!req.body.livestream_id) {
-			next(createHttpError(400, 'Field livestream_id is not specified'));
+			return next(createHttpError(400, 'Field livestream_id is not specified'));
 		}
 		
 		var id: number = req.body.livestream_id;
-		
-		var val = {};
 		
 		async.waterfall([
 			(cb) => {
@@ -54,11 +52,11 @@ var directorController = (Director: IModel) => {
 			},
 			(result, cb) => {
 				if (result) {
-					cb(createHttpError(400, `Director with livestream_id ${id} already exists`));
-				} else {
-					var url = `https://api.new.livestream.com/accounts/${id}`;
-					request(url, {}, cb);
+					return cb(createHttpError(400, `Director with livestream_id ${id} already exists`));
 				}
+				
+				var url = `https://api.new.livestream.com/accounts/${id}`;
+				request(url, {}, cb);
 			},
 			(response, body, cb) => {
 				var parsedBody, result = <IDirector>{};
