@@ -3,7 +3,7 @@
 import redis = require('redis');
 import async = require('async');
 
-var directors: IDirector[] = require('../tests/server/data');
+var directors: IDirector[] = require('../tests/server/data.json');
 
 var client = redis.createClient();
 
@@ -18,29 +18,27 @@ var db = {
 	model: (modelName: string) => {
 		db.models[modelName] = {};
 			
-		db.models[modelName].listAll = (cb: (err, res) => void) => {
+		db.models[modelName].listAll = (cb: (err, result) => void) => {
 			db.listAll(modelName, cb);
 		};
 		
-		db.models[modelName].get = (id: string, cb: (err, res) => void) => {
+		db.models[modelName].get = (id: string, cb: (err, result) => void) => {
 			db.get(modelName, id, cb);
 		};
 		
-		db.models[modelName].set = (id: string, val, cb: (err, res) => void) => {
+		db.models[modelName].set = (id: string, val, cb: (err, result) => void) => {
 			db.set(modelName, id, val, cb);
 		};
 		
-		db.models[modelName].remove = (id: string, cb: (err, res) => void) => {
+		db.models[modelName].remove = (id: string, cb: (err, result) => void) => {
 			db.remove(modelName, id, cb);
 		};
 	
 		return <IModel>db.models[modelName]; 
 	},
 	
-	listAll: (collectionName: string, cb: (err, res) => void) => {
-		console.log(`Redis.listAll ${collectionName}`);
-		
-		return client.smembers(collectionName, (err, res: string []) => {
+	listAll: (collectionName: string, cb: (err, result) => void) => {
+		return client.smembers(collectionName, (err, result: string []) => {
 			var iterator: AsyncResultIterator<string, any> = (item: string, callback: (err, val) => void) => {
 				client.get(item, (err, val) => {
 					if (err) { 
@@ -58,12 +56,12 @@ var db = {
 				});
 			};
 			
-			var callback: AsyncResultArrayCallback<any> = (err, results: any[]) => {
-				cb(err, results);
+			var callback: AsyncResultArrayCallback<any> = (err, result: any[]) => {
+				cb(err, result);
 			};
 			
 			async.map(
-				res,
+				result,
 				iterator,
 				callback
 			);
@@ -71,13 +69,13 @@ var db = {
 		});
 	},
 	
-	get: (collectionName: string, id: string, cb: (err, res) => void) => {
+	get: (collectionName: string, id: string, cb: (err, result) => void) => {
 		var memberId = `${collectionName}:${id}`;
 		
 		client.get(memberId, cb);
 	},
 	
-	set: (collectionName: string, id: string, val, cb: (err, res) => void) => {
+	set: (collectionName: string, id: string, val, cb: (err, result) => void) => {
 		var memberId = `${collectionName}:${id}`;
 		
 		var newVal: string
@@ -105,7 +103,7 @@ var db = {
 		});
 	},
 	
-	remove: (collectionName: string, id: string, cb: (err, res) => void) => {
+	remove: (collectionName: string, id: string, cb: (err, result) => void) => {
 		var memberId = `${collectionName}:${id}`;
 		
 		async.parallel([
@@ -128,7 +126,7 @@ var db = {
 var asiter: AsyncIterator<IDirector> = (item: IDirector, cb: (err) => void) => {
 	var val = JSON.stringify(item);
 	
-	db.set('directors', item.livestream_id, item, (err, res) => {
+	db.set('directors', item.livestream_id, item, (err, result) => {
 		if (err) {
 			return cb(err);
 		}

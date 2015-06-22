@@ -10,6 +10,9 @@ var routes = (Director) => {
   directorRouter.route('/')
     .get(directorController.listAll);
     
+  directorRouter.route('/:id')
+    .get(directorController.get);
+    
   return directorRouter;
 }
 

@@ -7,7 +7,8 @@ interface IDirector extends IModel {
 }
 
 interface IDirectorModel {
-  listAll: (cb: (err, res) => void) => void;
-  get: (id: string, cb: (err, res) => void) => void;
-  set: (id: string, val, cb: (err, res) => void) => void;
+  listAll?: (cb: (err, result: any[]) => void) => void;
+  get?: (id: string, cb: (err, result) => void) => void;
+  set?: (id: string, val, cb: (err, result) => void) => void;
+  remove?: (collectionName: string, id: string, cb: (err, result) => void) => void;
 }
