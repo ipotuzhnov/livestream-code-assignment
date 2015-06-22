@@ -81,15 +81,7 @@ var directorController = (Director: IModel) => {
 				
 				result.livestream_id = parsedBody.id;
 				
-				if (typeof parsedBody.full_name !== 'string') {
-					return cb(createHttpError(400, 'Type of field full_name returned from livastream api is not a string'));
-				}
-				
 				result.full_name = parsedBody.full_name;
-				
-				if (typeof parsedBody.dob !== 'string') {
-					return cb(createHttpError(400, 'Type of field dob returned from livastream api is not a string'));
-				}
 				
 				result.dob = parsedBody.dob;
 				
