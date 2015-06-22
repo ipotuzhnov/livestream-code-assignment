@@ -28,8 +28,10 @@ npm install -g mocha
 
 **Building**
 ----
-Default gulp task will compile, test and run server for you:
-`gulp`
+Default gulp task will compile, test and run server for you (be careful database tests use `flushdb`):
+```
+gulp
+```
 
 # Directors Collection
 **Show Directors**

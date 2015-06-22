@@ -123,6 +123,7 @@ var db = {
 	
 };
 
+/*
 var asiter: AsyncIterator<IDirector> = (item: IDirector, cb: (err) => void) => {
 	var val = JSON.stringify(item);
 	
@@ -147,5 +148,6 @@ async.each<IDirector>(
 	asiter,
 	errcb
 );
+*/
 
 export = db;
