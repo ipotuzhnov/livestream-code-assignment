@@ -10,14 +10,15 @@ describe('Director Controller Tests', function () {
                 }
             };
             var res = {
-                result: [],
-                status: function (status) {
-                    res.status = status;
+                result: null,
+                statusCode: null,
+                status: function (statusCode) {
+                    res.statusCode = statusCode;
                     return res;
                 },
                 send: function (result) {
                     res.result = result;
-                    res.status.should.be.equal(200);
+                    res.statusCode.should.be.equal(200);
                     res.result.length.should.be.equal(3);
                     res.result.should.containEql(directors[0]);
                     res.result.should.containEql(directors[1]);
@@ -43,20 +44,60 @@ describe('Director Controller Tests', function () {
                 }
             };
             var res = {
-                result: [],
-                status: function (status) {
-                    res.status = status;
+                result: null,
+                statusCode: null,
+                status: function (statusCode) {
+                    res.statusCode = statusCode;
                     return res;
                 },
                 send: function (result) {
                     res.result = result;
-                    res.status.should.be.equal(200);
+                    res.statusCode.should.be.equal(200);
                     res.result.should.be.equal(directors[0]);
                     done();
                 }
             };
             var directorController = directorControllers(Director);
             directorController.get(req, res, null);
+        });
+    });
+    describe('POST /directors', function () {
+        it('should add new entry to Directors collection', function (done) {
+            var director = directors[0];
+            var Director = {
+                get: function (id, cb) {
+                    cb(null, null);
+                },
+                set: function (id, val, cb) {
+                    cb(null, val);
+                },
+                post: function (id, val, cb) {
+                    cb(null, director);
+                }
+            };
+            var req = {
+                body: {
+                    livestream_id: director.livestream_id
+                }
+            };
+            var res = {
+                result: null,
+                statusCode: null,
+                status: function (statusCode) {
+                    res.statusCode = statusCode;
+                    return res;
+                },
+                send: function (result) {
+                    res.result = result;
+                    res.statusCode.should.be.equal(201);
+                    res.result.should.have.property('livestream_id', director.livestream_id);
+                    res.result.should.have.property('full_name', director.full_name);
+                    res.result.should.have.property('dob', director.dob);
+                    done();
+                }
+            };
+            var directorController = directorControllers(Director);
+            directorController.post(req, res, null);
         });
     });
 });

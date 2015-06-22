@@ -20,8 +20,18 @@ describe('DB orm tests', () => {
 			});
 		});
 		
+		after((done) => {
+			client.flushdb((err) => {
+				if (err) {
+					console.log(`Error: flushdb ${err.message}`);
+				}
+				
+				done();
+			});
+		});
+		
 		var collectionName = 'users';
-		var user_id = '1';
+		var user_id = 1;
 		var memberId = `${collectionName}:${user_id}`;
 		var user = {user_id};
 		var val = JSON.stringify(user);

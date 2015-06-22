@@ -22,15 +22,15 @@ var db = {
 			db.listAll(modelName, cb);
 		};
 		
-		db.models[modelName].get = (id: string, cb: (err, result) => void) => {
+		db.models[modelName].get = (id: number, cb: (err, result) => void) => {
 			db.get(modelName, id, cb);
 		};
 		
-		db.models[modelName].set = (id: string, val, cb: (err, result) => void) => {
+		db.models[modelName].set = (id: number, val, cb: (err, result) => void) => {
 			db.set(modelName, id, val, cb);
 		};
 		
-		db.models[modelName].remove = (id: string, cb: (err, result) => void) => {
+		db.models[modelName].remove = (id: number, cb: (err, result) => void) => {
 			db.remove(modelName, id, cb);
 		};
 	
@@ -69,13 +69,13 @@ var db = {
 		});
 	},
 	
-	get: (collectionName: string, id: string, cb: (err, result) => void) => {
+	get: (collectionName: string, id: number, cb: (err, result) => void) => {
 		var memberId = `${collectionName}:${id}`;
 		
 		client.get(memberId, cb);
 	},
 	
-	set: (collectionName: string, id: string, val, cb: (err, result) => void) => {
+	set: (collectionName: string, id: number, val, cb: (err, result) => void) => {
 		var memberId = `${collectionName}:${id}`;
 		
 		var newVal: string
@@ -103,7 +103,7 @@ var db = {
 		});
 	},
 	
-	remove: (collectionName: string, id: string, cb: (err, result) => void) => {
+	remove: (collectionName: string, id: number, cb: (err, result) => void) => {
 		var memberId = `${collectionName}:${id}`;
 		
 		async.parallel([
@@ -123,6 +123,7 @@ var db = {
 	
 };
 
+/*
 var asiter: AsyncIterator<IDirector> = (item: IDirector, cb: (err) => void) => {
 	var val = JSON.stringify(item);
 	
@@ -147,5 +148,6 @@ async.each<IDirector>(
 	asiter,
 	errcb
 );
+*/
 
 export = db;

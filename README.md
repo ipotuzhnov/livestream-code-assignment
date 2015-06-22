@@ -7,21 +7,31 @@ account on Livestream.
 ----
 
 This project is written in TypeScript so first of all you need to install it:
-`npm install -g typescript`
+```
+npm install -g typescript
+```
 
 And for TypeScript definitions:
-`npm install -g tsd`
+```
+npm install -g tsd
+```
 
 Automatic build with gulp:
-`npm install -g gulp`
+```
+npm install -g gulp
+```
 
 Automatic tests with mocha:
-`npm install -g mocha`
+```
+npm install -g mocha
+```
 
 **Building**
 ----
-Default gulp task will compile, test and run server for you:
-`gulp`
+Default gulp task will compile, test and run server for you (be careful database tests use `flushdb`):
+```
+gulp
+```
 
 # Directors Collection
 **Show Directors**
@@ -53,7 +63,7 @@ Default gulp task will compile, test and run server for you:
   [
     ...
     {
-      "livestream_id": "6488818",
+      "livestream_id": 6488818,
       "full_name": "Steven Speilberg",
       "dob": "2012-06-26T06:07:15.000Z",
       "favorite_camera": "Sony F65",
@@ -91,8 +101,8 @@ Default gulp task will compile, test and run server for you:
 
 ```javascript
 {
-  // Required {String}
-  "livestream_id": "6488818",
+  // Required {Number}
+  "livestream_id": 6488818,
   // Optional {String}
   "favorite_camera": "Sony F65",
   // Optional {Array} of {String}
@@ -111,7 +121,7 @@ Default gulp task will compile, test and run server for you:
     
 ```javascript
 {
-  "livestream_id": "6488818",
+  "livestream_id": 6488818,
   "full_name": "Steven Speilberg",
   "dob": "2012-06-26T06:07:15.000Z",
   "favorite_camera": "Sony F65",

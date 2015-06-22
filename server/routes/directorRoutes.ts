@@ -8,7 +8,8 @@ var routes = (Director) => {
   var directorController = require('../controllers/directorController')(Director);
   
   directorRouter.route('/')
-    .get(directorController.listAll);
+    .get(directorController.listAll)
+    .post(directorController.post);
     
   directorRouter.route('/:id')
     .get(directorController.get);
