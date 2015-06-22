@@ -3,7 +3,7 @@
 /// <reference path="../typings/redis/redis.d.ts" />
 /// <reference path="../typings/body-parser/body-parser.d.ts" />
 /// <reference path="../typings/async/async.d.ts" />
-/// <reference path="../typings/should/should.d.ts" />
+/// <reference path="../typings/request/request.d.ts" />
 
 /// <reference path="../typings/mocha/mocha.d.ts" />
 /// <reference path="../typings/should/should.d.ts" />
