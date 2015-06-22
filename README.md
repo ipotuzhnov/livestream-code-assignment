@@ -34,7 +34,7 @@ gulp
 ```
 
 # Directors Collection
-**Show Directors**
+**Get Directors**
 ----
   Returns Directors collection.
 
@@ -81,9 +81,9 @@ gulp
 
   * **Code:** 500 Internal Server Error <br />
     
-**Add new Director**
+**Add new entry**
 ----
-  Returns json data about new director.
+  Returns added entry.
   
 * **URL**
   /directors
@@ -146,5 +146,46 @@ gulp
     
     **Content:**`Director with livestream_id: 6488818 already exists`
     
-  * **Code:** 500 Internal Server Error <br />     
-     
+  * **Code:** 500 Internal Server Error <br />
+
+**Get Director Entry**
+----
+  Returns Directors collection entry for specified id of type {Number}.
+    * **URL**
+    /directors/:id
+  
+* **Method:**
+  `GET`
+
+* **URL Params**
+
+  None
+  
+* **Data Params**
+
+  None
+  
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content-Type:** application/json <br />
+    **Content:**
+    
+```javascript
+{
+  "livestream_id": 6488818,
+  "full_name": "Steven Speilberg",
+  "dob": "2012-06-26T06:07:15.000Z",
+  "favorite_camera": "Sony F65",
+  "favorite_movies": [
+    "Catch Me If You Can",
+    "The Terminal"
+  ]
+}
+```
+      
+* **Error Response:**
+
+  * **Code:** 404 Not Found <br />
+
+  * **Code:** 500 Internal Server Error <br />
