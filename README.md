@@ -29,6 +29,9 @@ npm install -g mocha
 ----
 Default gulp task will compile, test and run server for you (be careful database tests use `flushdb`):
 ```
+npm install
+tsd install
+redis-server
 gulp
 ```
 
