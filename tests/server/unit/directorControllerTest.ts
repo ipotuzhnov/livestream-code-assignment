@@ -181,4 +181,36 @@ describe('Director Controller Tests', () => {
 		
 	});
 	
+	describe('DELETE /directors/:id', () => {
+		
+		it('should remove entry from Directors collection', (done) => {
+			
+			var director = directors[0];
+			
+			var Director: IModel = {
+				remove: (id: number, cb: (err, result) => void) => {
+					cb(null, null);	
+				}
+			};
+			
+			var req = {
+				params: {
+					id: director.livestream_id
+				}
+			};
+			
+			var res = {
+				status: (statusCode) => {
+					statusCode.should.be.equal(200);
+					done();
+				}
+			};
+			
+			var directorController = directorControllers(Director);
+			directorController.delete(req, res, null);
+			
+		});
+		
+	});
+	
 });

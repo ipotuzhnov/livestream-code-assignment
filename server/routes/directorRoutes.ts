@@ -20,7 +20,8 @@ var routes = (Director) => {
   directorRouter.use('/:id', authorize);
     
   directorRouter.route('/:id')
-    .put(directors.put);
+    .put(directors.put)
+    .delete(directors.delete);
     
   return directorRouter;
 }
