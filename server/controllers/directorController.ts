@@ -35,12 +35,23 @@ var directorController = (Director: IModel) => {
 	};
 	
 	var post = (req, res, next) => {
-		 
-		if (!req.body.livestream_id) {
+		var id: number = req.body.livestream_id;
+		var full_name = req.body.full_name;
+		var dob = req.body.dob;
+		var favorite_camera = req.body.favorite_camera;
+		var favorite_movies = req.body.favorite_movies;
+		
+		if (id === undefined) {
 			return next(createHttpError(400, 'Field livestream_id is not specified'));
 		}
 		
-		var id: number = req.body.livestream_id;
+		if (favorite_camera !== undefined && favorite_camera !== null && typeof favorite_camera !== 'string') {
+			return next(createHttpError(400, 'Type of field favorite_camera should be string'));
+		}
+		
+		if (favorite_movies !== undefined && favorite_movies !== null && Array.isArray(favorite_movies) === false) {
+			return next(createHttpError(400, 'Type of field favorite_movies should be array'));
+		}
 		
 		async.waterfall([
 			(cb) => {
@@ -81,9 +92,25 @@ var directorController = (Director: IModel) => {
 				
 				result.livestream_id = parsedBody.id;
 				
+				if (full_name !== undefined && full_name !== parsedBody.full_name) {
+					return cb(createHttpError(400, 'Field full_name does not match livestream api value'));
+				}
+				
+				if (dob !== undefined && dob !== parsedBody.dob) {
+					return cb(createHttpError(400, 'Field dob does not match livestream api value'));
+				}
+				
 				result.full_name = parsedBody.full_name;
 				
 				result.dob = parsedBody.dob;
+				
+				if (favorite_camera) {
+					result.favorite_camera = favorite_camera;
+				}
+				
+				if (favorite_movies) {
+					result.favorite_movies = favorite_movies;
+				}
 				
 				Director.set(id, result, cb);
 			}
@@ -149,8 +176,6 @@ var directorController = (Director: IModel) => {
 			}
 		], (err, result) => {
 			if (err) {
-				console.log('EROROROOROR');
-				console.log(err);
 				return next(err);
 			}
 			
