@@ -98,14 +98,17 @@ var directorController = (Director: IModel) => {
 	};
 	
 	var put = (req, res, next) => {
+		
 		var id: number = req.params.id;
 		var body: IDirector = req.body;
 		
 		async.waterfall([
 			(cb) => {
+				/*
 				if (typeof id !== 'number') {
 					return cb(createHttpError(400, 'Type of field livestream_id should be number'));
 				}
+				*/
 				
 				if (!body) {
 					return cb(createHttpError(400, 'Request body is empty'));
@@ -132,13 +135,17 @@ var directorController = (Director: IModel) => {
 				
 				if (body.favorite_camera !== undefined && typeof body.favorite_camera !== 'string') {
 					return cb(createHttpError(400, 'Type of field favorite_camera should be string'));
+				} else {
+					result.favorite_camera = body.favorite_camera;
 				}
 				
 				if (body.favorite_movies !== undefined && Array.isArray(body.favorite_movies) === false) {
 					return cb(createHttpError(400, 'Type of field favorite_movies should be array'));
+				} else {
+					result.favorite_movies = body.favorite_movies;
 				}
 				
-				Director.set(id, body, cb)
+				Director.set(id, result, cb)
 			}
 		], (err, result) => {
 			if (err) {
