@@ -137,31 +137,4 @@ var db = {
 	
 };
 
-/*
-var asiter: AsyncIterator<IDirector> = (item: IDirector, cb: (err) => void) => {
-	var val = JSON.stringify(item);
-	
-	db.set('directors', item.livestream_id, item, (err, result) => {
-		if (err) {
-			return cb(err);
-		}
-		
-		cb(null);
-	});
-};
-
-var errcb: ErrorCallback = (err) => {
-	if (err) {
-		console.log('REDIS ERROR');
-		console.log(err);
-	}
-};
-
-async.each<IDirector>(
-	directors,
-	asiter,
-	errcb
-);
-*/
-
 export = db;

@@ -133,12 +133,6 @@ var directorController = (Director: IModel) => {
 		
 		async.waterfall([
 			(cb) => {
-				/*
-				if (typeof id !== 'number') {
-					return cb(createHttpError(400, 'Type of field livestream_id should be number'));
-				}
-				*/
-				
 				if (!body) {
 					return cb(createHttpError(400, 'Request body is empty'));
 				}

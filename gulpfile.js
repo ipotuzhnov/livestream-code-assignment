@@ -1,7 +1,7 @@
-var gulp    = require('gulp');
-var ts      = require('gulp-typescript');
+var gulp = require('gulp');
+var ts   = require('gulp-typescript');
 
-var env     = process.env.ENV || 'dev';
+var env  = process.env.ENV || 'dev';
 
 var paths = {
   server: {
@@ -100,7 +100,6 @@ function compile(src, out, cb) {
 
 function handleError(err) {
   if (env === 'dev') {
-    //console.log('Error occured: ' + err.message);
     gulp.watch(files, ['restart']);
   } else {
     throw err;
