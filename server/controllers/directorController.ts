@@ -6,7 +6,9 @@ import createHttpError = require('../httpError');
 
 var directorController = (Director: IModel) => {
 	
-	var listAll = (req, res, next) => {
+	var controller = <IDirectorController>{};
+	
+	controller.listAll = (req, res, next) => {
 		Director.listAll((err, result) => {
 			if (err) {
 				return next(err);
@@ -20,7 +22,7 @@ var directorController = (Director: IModel) => {
 		});
 	};
 	
-	var get = (req, res, next) => {
+	controller.get = (req, res, next) => {
 		Director.get(req.params.id, (err, result) => {
 			if (err) {
 				return next(err);
@@ -34,7 +36,7 @@ var directorController = (Director: IModel) => {
 		});
 	};
 	
-	var post = (req, res, next) => {
+	controller.post = (req, res, next) => {
 		var id: number = req.body.livestream_id;
 		var full_name = req.body.full_name;
 		var dob = req.body.dob;
@@ -124,7 +126,7 @@ var directorController = (Director: IModel) => {
 		
 	};
 	
-	var put = (req, res, next) => {
+	controller.put = (req, res, next) => {
 		
 		var id: number = req.params.id;
 		var body: IDirector = req.body;
@@ -183,12 +185,17 @@ var directorController = (Director: IModel) => {
 		});
 	};
 	
-	return <IDirectorController>{
-		listAll,
-		get,
-		post,
-		put
+	controller.delete = (req, res, next) => {
+		Director.remove(req.params.id, (err, result) => {
+			if (err) {
+				return next(err);
+			}
+			
+			res.status(200);
+		});
 	};
+	
+	return controller;
 	
 };
 
