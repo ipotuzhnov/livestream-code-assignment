@@ -185,7 +185,7 @@ var directorController = (Director: IModel) => {
 				return next(err);
 			}
 			
-			res.status(200);
+			res.status(204).end();
 		});
 	};
 	

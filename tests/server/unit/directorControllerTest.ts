@@ -200,8 +200,13 @@ describe('Director Controller Tests', () => {
 			};
 			
 			var res = {
+				statusCode: null,
 				status: (statusCode) => {
-					statusCode.should.be.equal(200);
+					res.statusCode = statusCode;
+					return res;
+				},
+				end: () => {
+					res.statusCode.should.be.equal(204);
 					done();
 				}
 			};
