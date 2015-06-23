@@ -34,7 +34,7 @@ gulp
 ```
 
 # Directors Collection
-**Get Directors**
+**Get entries from Directors collection**
 ----
   Returns Directors collection.
 
@@ -81,7 +81,7 @@ gulp
 
   * **Code:** 500 Internal Server Error <br />
     
-**Add new entry**
+**Add new entry to Directors collection**
 ----
   Returns added entry.
   
@@ -105,7 +105,7 @@ gulp
   "livestream_id": 6488818,
   // Optional {String}
   "favorite_camera": "Sony F65",
-  // Optional {Array} of {String}
+  // Optional {Array}
   "favorite_movies": [ 
     "Catch Me If You Can",
     "The Terminal"
@@ -140,7 +140,7 @@ gulp
     
   * **Code:** 500 Internal Server Error <br />
 
-**Get Director Entry**
+**Get Director entry from Directors collection**
 ----
   Returns Directors collection entry for specified id of type {Number}.
 * **URL**
@@ -165,10 +165,15 @@ gulp
     
 ```javascript
 {
+  // Optional, immutable {Number}
   "livestream_id": 6488818,
+  // Optional, immutable {String}
   "full_name": "Steven Speilberg",
+  // Optional, immutable {String}
   "dob": "2012-06-26T06:07:15.000Z",
+  // Optional {String}
   "favorite_camera": "Sony F65",
+  // Optional {Array}
   "favorite_movies": [
     "Catch Me If You Can",
     "The Terminal"
@@ -182,9 +187,9 @@ gulp
 
   * **Code:** 500 Internal Server Error <br />
 
-**Update Directors collection entry**
+**Update entry in Directors collection**
 ----
-  Returns updated entry for specified id of type {Number}.
+  Returns updated entry for specified id of type {Number}. Requiers authorization: `Bearer md5(full_name)`
   
 * **URL**
   /directors/:id
@@ -198,6 +203,7 @@ gulp
   
 * **Data Params**
   * **Content-Type:** application/json <br />
+    **Authorization:** Bearer f2455fa1321940cef8ea0d5c0e60d800 <br />
     **Content:**
 
 ```javascript
@@ -235,6 +241,39 @@ gulp
 
   * **Code:** 400 Bad Request <br />
     
+  * **Code:** 401 Unauthorized <br />
+    
   * **Code:** 404 Not Found <br />  
     
   * **Code:** 500 Internal Server Error <br />
+
+**Remove entry from Directors collection**
+----
+  Removes entry for specified id of type {Number}. Requiers authorization: `Bearer md5(full_name)`
+
+* **URL**
+  /directors/:id
+
+* **Method:**
+  `DELETE`
+
+* **URL Params**
+
+  None
+  
+* **Data Params**
+  * **Content-Type:** application/json <br />
+      **Authorization:** Bearer f2455fa1321940cef8ea0d5c0e60d800 <br />
+    
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    
+* **Error Response:**
+
+  * **Code:** 401 Unauthorized <br />
+    
+  * **Code:** 404 Not Found <br />  
+
+  * **Code:** 500 Internal Server Error <br />
+    
