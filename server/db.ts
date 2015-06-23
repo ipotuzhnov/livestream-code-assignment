@@ -45,7 +45,7 @@ var db = {
 						return callback(err, null);
 					}
 					
-					var result: string;
+					var result;
 					try {
 						result = JSON.parse(val);
 					} catch (err) {
@@ -72,7 +72,21 @@ var db = {
 	get: (collectionName: string, id: number, cb: (err, result) => void) => {
 		var memberId = `${collectionName}:${id}`;
 		
-		client.get(memberId, cb);
+		client.get(memberId, (err, val) => {
+			if (err) {
+				return cb(err, null);
+			}
+			
+			var result;
+			
+			try {
+				result = JSON.parse(val);
+			} catch (error) {
+				return cb(error, null);
+			}
+			
+			cb(null, result);
+		});
 	},
 	
 	set: (collectionName: string, id: number, val, cb: (err, result) => void) => {

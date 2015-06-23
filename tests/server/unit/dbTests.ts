@@ -36,7 +36,7 @@ describe('DB orm tests', () => {
 		var user = {user_id};
 		var val = JSON.stringify(user);
 		
-		it('db.get should return data valid from redis', (done) => {
+		it('db.get should return valid data from redis', (done) => {
 			
 			async.series([
 				(cb) => {
@@ -57,7 +57,7 @@ describe('DB orm tests', () => {
 				should(err).not.be.ok;
 				results[0].should.be.equal('OK');
 				results[1].should.be.equal(1);
-				results[2].should.be.equal(val);
+				results[2].should.have.property('user_id', user_id);
 				done();
 			});
 			
