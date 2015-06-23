@@ -94,9 +94,6 @@ describe('Director Controller Tests', () => {
 				},
 				set: (id: number, val, cb: (err, result) => void) => {
 					cb(null, val);
-				},
-				post: (id: number, val, cb: (err, result) => void) => {
-					cb(null, director);
 				}
 			};
 			
@@ -125,6 +122,60 @@ describe('Director Controller Tests', () => {
 			
 			var directorController = directorControllers(Director);
 			directorController.post(req, res, null);
+			
+		});
+		
+	});
+	
+	describe('PUT /directors/:id', () => {
+		
+		it('should update entry in Directors collection', (done) => {
+			
+			var director = directors[0];
+			
+			var Director: IModel = {
+				get: (id: number, cb: (err, result) => void) => {
+					cb(null, director);
+				},
+				set: (id: number, val, cb: (err, result) => void) => {
+					cb(null, val);
+				}
+			};
+			
+			var req = {
+				params: {
+					id: director.livestream_id
+				},
+				body: {
+					livestream_id: director.livestream_id,
+					full_name: director.full_name,
+					dob: director.dob,
+					favorite_camera: "Zarya 5",
+					favorite_movies: ["Die Hard"]
+				}
+			};
+			
+			var res = {
+				result: null,
+				statusCode: null,
+				status: (statusCode) => {
+					res.statusCode = statusCode;
+					return res;
+				},
+				send: (result) => {
+					res.result = result;
+					res.statusCode.should.be.equal(200);
+					res.result.should.have.property('livestream_id', director.livestream_id);
+					res.result.should.have.property('full_name', director.full_name);
+					res.result.should.have.property('dob', director.dob);
+					res.result.should.have.property('favorite_camera', req.body.favorite_camera);
+					res.result.should.have.property('favorite_movies', req.body.favorite_movies);
+					done();
+				}
+			};
+			
+			var directorController = directorControllers(Director);
+			directorController.put(req, res, null);
 			
 		});
 		

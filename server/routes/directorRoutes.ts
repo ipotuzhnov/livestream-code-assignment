@@ -1,18 +1,26 @@
 /// <reference path="../_all.d.ts" />
 
 import express = require('express');
+import directorController = require('../controllers/directorController');
+import authorizationController = require('../controllers/authorizationController');
 
 var routes = (Director) => {
   var directorRouter = express.Router();
   
-  var directorController = require('../controllers/directorController')(Director);
+  var directors = directorController(Director);
+  var authorize = authorizationController(Director).authorize;
   
   directorRouter.route('/')
-    .get(directorController.listAll)
-    .post(directorController.post);
+    .get(directors.listAll)
+    .post(directors.post);
     
   directorRouter.route('/:id')
-    .get(directorController.get);
+    .get(directors.get);
+    
+  directorRouter.use('/:id', authorize);
+    
+  directorRouter.route('/:id')
+    .put(directors.put);
     
   return directorRouter;
 }

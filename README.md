@@ -136,23 +136,15 @@ gulp
 
   * **Code:** 400 Bad Request <br />
     
-    **Content:**`Field {{field name}} does not match data from livestream.com`
-    
   * **Code:** 404 Not Found <br />
-    
-    **Content:**`Accout with livestream_id: 6488818 does not exist on livestream.com`
-    
-  * **Code:** 409 Conflict <br />
-    
-    **Content:**`Director with livestream_id: 6488818 already exists`
     
   * **Code:** 500 Internal Server Error <br />
 
 **Get Director Entry**
 ----
   Returns Directors collection entry for specified id of type {Number}.
-    * **URL**
-    /directors/:id
+* **URL**
+  /directors/:id
   
 * **Method:**
   `GET`
@@ -188,4 +180,61 @@ gulp
 
   * **Code:** 404 Not Found <br />
 
+  * **Code:** 500 Internal Server Error <br />
+
+**Update Directors collection entry**
+----
+  Returns updated entry for specified id of type {Number}.
+  
+* **URL**
+  /directors/:id
+  
+* **Method:**
+  `PUT`
+  
+* **URL Parans**
+
+  None
+  
+* **Data Params**
+  * **Content-Type:** application/json <br />
+    **Content:**
+
+```javascript
+{
+  // Optional {String}
+  "favorite_camera": "Sony F65",
+  // Optional {Array} of {String}
+  "favorite_movies": [ 
+    "Catch Me If You Can",
+    "The Terminal"
+  ]
+}
+```
+      
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content-Type:** application/json <br />
+    **Content:**
+    
+```javascript
+{
+  "livestream_id": 6488818,
+  "full_name": "Steven Speilberg",
+  "dob": "2012-06-26T06:07:15.000Z",
+  "favorite_camera": "Sony F65",
+  "favorite_movies": [
+    "Catch Me If You Can",
+    "The Terminal"
+  ]
+}
+```
+    
+* **Error Response:**
+
+  * **Code:** 400 Bad Request <br />
+    
+  * **Code:** 404 Not Found <br />  
+    
   * **Code:** 500 Internal Server Error <br />

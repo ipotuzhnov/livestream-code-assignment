@@ -66,7 +66,7 @@ var directorController = (Director: IModel) => {
 				}
 				
 				if (typeof body !== 'string') {
-					return cb(createHttpError(400, 'Type of response body returned from livastream api is not a string'));
+					return cb(createHttpError(400, 'Type of response body returned from livastream api is not string'));
 				}
 				
 				try {
@@ -76,7 +76,7 @@ var directorController = (Director: IModel) => {
 				}
 				
 				if (typeof parsedBody.id !== 'number') {
-					return cb(createHttpError(400, 'Type of field id returned from livastream api is not a number'));
+					return cb(createHttpError(400, 'Type of field id returned from livastream api is not number'));
 				}
 				
 				result.livestream_id = parsedBody.id;
@@ -97,10 +97,72 @@ var directorController = (Director: IModel) => {
 		
 	};
 	
+	var put = (req, res, next) => {
+		
+		var id: number = req.params.id;
+		var body: IDirector = req.body;
+		
+		async.waterfall([
+			(cb) => {
+				/*
+				if (typeof id !== 'number') {
+					return cb(createHttpError(400, 'Type of field livestream_id should be number'));
+				}
+				*/
+				
+				if (!body) {
+					return cb(createHttpError(400, 'Request body is empty'));
+				}
+				
+				Director.get(id, cb);
+			},
+			(result: IDirector, cb) => {
+				if (!result) {
+					return cb(createHttpError(404, 'Not Found'));
+				}
+				
+				if (body.livestream_id !== undefined && body.livestream_id !== result.livestream_id) {
+					return cb(createHttpError(400, 'Field livestream_id does not match database value'));
+				}
+				
+				if (body.full_name !== undefined && body.full_name !== result.full_name) {
+					return cb(createHttpError(400, 'Field full_name does not match database value'));
+				}
+				
+				if (body.dob !== undefined && body.dob !== result.dob) {
+					return cb(createHttpError(400, 'Field dob does not match database value'));
+				}
+				
+				if (body.favorite_camera !== undefined && typeof body.favorite_camera !== 'string') {
+					return cb(createHttpError(400, 'Type of field favorite_camera should be string'));
+				} else {
+					result.favorite_camera = body.favorite_camera;
+				}
+				
+				if (body.favorite_movies !== undefined && Array.isArray(body.favorite_movies) === false) {
+					return cb(createHttpError(400, 'Type of field favorite_movies should be array'));
+				} else {
+					result.favorite_movies = body.favorite_movies;
+				}
+				
+				Director.set(id, result, cb)
+			}
+		], (err, result) => {
+			if (err) {
+				console.log('EROROROOROR');
+				console.log(err);
+				return next(err);
+			}
+			
+			res.status(200).send(result);
+		});
+	};
+	
 	return <IDirectorController>{
 		listAll,
 		get,
-		post
+		post,
+		put
 	};
 	
 };
