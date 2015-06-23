@@ -266,7 +266,7 @@ gulp
     
 * **Success Response:**
 
-  * **Code:** 200 OK <br />
+  * **Code:** 204 No Content <br />
     
 * **Error Response:**
 
